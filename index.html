@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>JS FE</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1"> 
+
+<style>
+	*{
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+
+	body{
+		padding: 30px;
+	}
+
+	.skill{
+		display: inline-block;
+	}
+	.progressbar{
+		width: 27vw;
+		border: 1px solid black;
+		height: 10px;
+		border-radius: 5px;
+		position: relative;
+		margin-right: 2vw;
+	}
+	.progress{
+		height: 100%;
+		width: 0px;
+		background: green;
+	}
+
+	#scroll{
+		height: 2000px;
+		background: yellow;
+	}
+
+	.count {
+		position: absolute;
+		top: 5px;
+		right: -15px;
+		font-size: 20px;
+	}
+
+</style>
+</head>
+<body>
+
+	<section id="scroll"></section>
+
+
+	<section id="skills">
+		<h2>My expertise</h2>
+
+		<div class="skill">
+			<h5>HTML</h5>
+			<div class="progressbar">
+				<div data-max="90" class="progress"></div>
+				<span class="count"></span>
+			</div>
+		</div>
+
+		<div class="skill">
+			<h5>CSS</h5>
+			<div class="progressbar">
+				<div data-max="87" class="progress"></div>
+				<span class="count"></span>
+			</div>
+		</div>
+
+		<div class="skill">
+			<h5>Javascript</h5>
+			<div class="progressbar">
+				<div data-max="60" class="progress"></div>
+				<span class="count"></span>
+			</div>
+		</div>
+	</section>
+	<section id="scroll"></section>
+
+
+
+<script>
+
+	let sum = (a,b) => a+b; // returns value if fn is one-line
+	console.log(sum(3,4)); // 7 вместо undefined
+	// не всплывает, !this, !arguments
+
+	foo();
+
+	function foo(){
+		console.log('f00');
+	}
+
+	let arr = [1,2,3];
+	arr.forEach(item => console.log(item));
+
+
+	// closures
+
+	// краткая идея - функция в момент ее вызова записывает в обьект своего лексического окружения внешние и внутренние переменные
+
+	let name = 'Ann';
+
+	function sayHi(){
+		console.log(`Hello, ${name}`);
+	}
+
+	sayHi();
+	name = 'Jane';
+	sayHi();
+
+	function count(){
+		let count = 0;
+
+		return function (){
+			console.log(++count);
+		}
+	}
+
+	let counter = count();
+	counter();
+	counter();
+	counter();
+
+
+	// Map, Set - коллекции
+
+	let o = {
+		name: 'John',
+		age: 30
+	}
+	let o1 = {
+		name: 'Jane',
+		age: 30
+	}
+	let o2 = {
+		name: 'Jimmy',
+		age: 30
+	}
+
+	let dictionary = new Map();
+
+	dictionary.set('name', 'Ann');
+
+	// Set - уникальная коллекция
+
+	let coll = new Set();
+	coll.add(o);
+	coll.add(o1);
+	coll.add(o2);
+	coll.add(o);
+	coll.add(o);
+
+	console.log(coll);
+
+
+	// call(context, params)/apply(context, [params])
+	// их задача - зафиксировать контекст выполнения функции  разница между ними только в том, в каком виде они принимают аргументы
+
+
+	let user = {
+		name: 'user',
+		sayHello(){
+			console.log(`Hello, ${this.name}`);
+		}
+	}
+
+	user.sayHello();
+	//setTimeout(user.sayHello, 100); // контекст утерян
+	//setTimeout(()=> user.sayHello(), 200); // контекст зафиксировали замыканием
+	setTimeout(user.sayHello.call(user), 300); // контекст зафиксирован с помощью call()
+
+
+	function sum2(){
+		let result = 0;
+		for (let num of arguments){
+			result += num;
+		}
+		console.log(result);
+	}
+
+	sum2(1,2,3,4,5,6);
+
+	sum2.apply(null, arr);
+
+
+	// get/set
+
+	let admin = {
+		name: 'admin',
+		lastname: 'main'
+	}
+
+	Object.defineProperty(admin, 'fullname', {
+		get(){
+			return this.name + " " + this.lastname;
+		},
+		set(newname){
+			[this.name, this.lastname] = newname.split(' ');
+		}
+	});
+
+	console.log(admin.fullname);
+	admin.fullname = 'User Stranger';
+	console.log(admin.fullname);
+
+	let a = 10;
+	function boo(){
+		console.log(a);
+	}
+	boo();
+
+</script>
+
+</body>
+</html>
